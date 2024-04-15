@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3652481124040243746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9037561547616684793}
+  - component: {fileID: 8588957887344479450}
+  - component: {fileID: 3437284276283763279}
+  m_Layer: 8
+  m_Name: Diagnostics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9037561547616684793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652481124040243746}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8588957887344479450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652481124040243746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a8a1cbd61ddd843a547206333223cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chart: 0
+  visible: 1
+  dataRecordingTime: 300
+  refreshInterval: 0.02
+  startRecording: 1
+  panRate: 0.5
+  zoomRate: 1
+  viewMode: 0
+  smallDisplay:
+    x: -10
+    y: 10
+    width: 512
+    height: 256
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0.9098039}
+    chartAlpha: 0.7
+    textAlpha: 1
+  largeDisplay:
+    x: -10
+    y: 10
+    width: 1024
+    height: 512
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0.9490196}
+    chartAlpha: 1
+    textAlpha: 1
+  referenceSpecs:
+    maxSpeed: 50
+    maxRpm: 7000
+    maxTorque: 200
+    maxPower: 100
+    numGears: 5
+    maxSuspensionDistance: 0.25
+    maxSpringRate: 25000
+    maxAccelerationG: 3
+  toggleRecordKey: 256
+  leftPanAndZoomKey: 260
+  rightPanAndZoomKey: 262
+  upPanAndZoomKey: 264
+  downPanAndZoomKey: 258
+  toggleViewModeKey: 266
+  resetViewKey: 261
+  nextChartKey: 270
+  prevChartKey: 269
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  font: {fileID: 12800000, guid: 68e91a955efe04085922337eb01d7626, type: 3}
+  fontSize: 10
+--- !u!114 &3437284276283763279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652481124040243746}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46cc89dce797e9c40b45e9c9606ba51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chart: 0
+  monitoredWheel: 0
+  maxBrakeTorque: 3200
