@@ -70,3 +70,11 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+/[Aa]ssets/3DModels
+/[Aa]ssets/AWSIM
+/[Aa]ssets/Plugins
+/[Aa]ssets/RGLUnityPlugin
+/[Aa]ssets/Ros2ForUnity
+/[Aa]ssets/ScenarioSimulatorConnector
+/[Aa]ssets/Vehicle Physics Pro
+
