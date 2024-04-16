@@ -1,0 +1,101 @@
+#define Graph_And_Chart_PRO
+using System.Collections;
+using System.Collections.Generic;
+using ChartAndGraph;
+using Unity.VisualScripting;
+using UnityEngine;
+using VehiclePhysics;
+using TMPro;
+
+public class GraphSample : MonoBehaviour
+{
+    public GraphChart chart;
+
+    [SerializeField] VehicleBase vehicle;
+    [SerializeField] TMP_Text _TmpFrame;
+    [SerializeField] TMP_Text _TmpTitle;
+
+    [SerializeField] Transform _vehicleStateTextParent;
+    List<VehicleStatText> _listVehicleStatText = new List<VehicleStatText>();
+    // [SerializeField] TMP_Text _TmpFrame;
+    // [SerializeField] TMP_Text _TmpFrame;
+    // [SerializeField] TMP_Text _TmpFrame;
+
+    private float X = 0f;
+    void Start()
+    {
+        int count = _vehicleStateTextParent.childCount;
+        for (int i = 0; i < count; i++)
+        {
+            VehicleStatText child = _vehicleStateTextParent.GetChild(i).GetComponent<VehicleStatText>();
+            _listVehicleStatText.Add(child);
+        }
+
+        // It is also best Practice to enclose graph changes in startBatch and EndBacth calls
+        chart.DataSource.StartBatch();
+
+        // It is best practice to clear a category before filling it with new data
+        chart.DataSource.ClearCategory("Illusion");
+        chart.DataSource.AddPointToCategory("Illusion", 300, 0f);
+
+        // each startBatch call must be matched width an EndBatch call !!!
+        chart.DataSource.EndBatch();
+
+        // graph is redrawn after EndBatch is called
+    }
+
+    float elpasedTime = 0f;
+    int frameCount = 0;
+    void FixedUpdate()
+    {
+       elpasedTime += Time.deltaTime; // each update we deacrese the time that has passed
+       frameCount++;
+       _TmpFrame.text = "FRM    " + frameCount.ToString();
+
+       if (elpasedTime >= 0.1f)
+       {
+            elpasedTime = 0.0f; // set the time to one and :
+
+            // 차량 데이터 가져오기
+            int[] vehicleData = vehicle.data.Get(Channel.Vehicle);
+            float[] tempVehicleData = new float[vehicleData.Length];
+            tempVehicleData[VehicleData.EngineRpm] = vehicleData[VehicleData.EngineRpm] / 1000.0f;
+            tempVehicleData[VehicleData.GearboxGear] = vehicleData[VehicleData.GearboxGear];
+            tempVehicleData[VehicleData.Speed] = vehicleData[VehicleData.Speed] * 3.6f / 1000.0f;
+            tempVehicleData[VehicleData.AidedSteer] = vehicleData[VehicleData.AidedSteer] / 10000.0f;
+
+            // 인풋데이터 가져오기
+            int[] inputData = vehicle.data.Get(Channel.Input);
+            float[] tempInputData = new float[vehicleData.Length];
+            tempInputData[InputData.Throttle] = inputData[InputData.Throttle] / 10000.0f;
+            tempInputData[InputData.Brake] = inputData[InputData.Brake] / 10000.0f;
+            tempInputData[InputData.Clutch] = inputData[InputData.Clutch] / 10000.0f;
+
+            // 그래프 보간
+            float engineRpmChart = 7f + tempVehicleData[VehicleData.EngineRpm] / 1000.0f / 3f;
+            float geerChart = 6f + tempVehicleData[VehicleData.GearboxGear] / 10f;
+            float speedChart = 4f + tempVehicleData[VehicleData.Speed] / 100.0f;
+            float steeringChart = 3f + tempVehicleData[VehicleData.AidedSteer];
+            
+            float throttleChart = 1f + tempInputData[InputData.Throttle];
+            float brakeChart = 1f + tempInputData[InputData.Brake];
+            float ClutchChart = 1f + tempInputData[InputData.Clutch]; 
+
+            // 수치 텍스트 적용
+            for (int i = 0; i < _listVehicleStatText.Count; i++)
+            {
+                _listVehicleStatText[i].UpdateText(tempVehicleData, tempInputData);
+            }
+
+            // Debug.Log($"engineRpm : {engineRpm}, currentGear : {currentGear}, speed : {speed}, steering : {steering}, throttle : {throttle}, brake : {brake}, clutch : {clutch}");
+            chart.DataSource.AddPointToCategoryRealtime("RPM", X, engineRpmChart, 0.08f); // now we can also set the animation time for the streaming value
+            chart.DataSource.AddPointToCategoryRealtime("Gear", X, geerChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Speed", X, speedChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Steering", X, steeringChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Throttle", X, throttleChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Brake", X, brakeChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Clutch", X, ClutchChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            X++; // increase the X value so the next point is 1 unity away
+       }
+    }
+}
