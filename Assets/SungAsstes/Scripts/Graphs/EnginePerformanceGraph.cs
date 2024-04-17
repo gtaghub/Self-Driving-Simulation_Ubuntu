@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VehiclePhysics;
-using TMPro;
 
 public class EnginePerformanceGraph : GraphBase
 {

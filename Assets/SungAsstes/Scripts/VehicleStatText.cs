@@ -15,6 +15,7 @@ public class VehicleStatText : MonoBehaviour
         _tmp = GetComponent<TMP_Text>();
     }
 
+    // vhicleData & inputData
     public void UpdateText(float[] vehicleData, float[]inputData)
     {
         if (_dataType == DATA_TYPE.OTHER)
@@ -31,6 +32,7 @@ public class VehicleStatText : MonoBehaviour
         _tmp.text += (" " + dicUnit[_categoryType]);
     }
 
+    // otherData
     public void UpdateText(float value)
     {
         var dicUnit = GTSChartController.Instance.DicUnit;

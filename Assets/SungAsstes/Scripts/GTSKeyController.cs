@@ -9,6 +9,14 @@ public class GTSKeyController : MonoBehaviour
     [SerializeField] VPTelemetry _telemetry;
 
     bool _onChartUI = false;
+    bool _onNewChartUI = false;
+
+    void Start()
+    {
+        OnChartUI = false;
+        OnNewChartUI = false;
+    }
+
     public bool OnChartUI 
     {
         get
@@ -19,6 +27,22 @@ public class GTSKeyController : MonoBehaviour
         {
             _onChartUI = value;
             SwitchingChartUI(value);
+        }
+    }
+
+    public bool OnNewChartUI
+    {
+        get
+        {
+            return _onNewChartUI;
+        }
+        set
+        {
+            _onNewChartUI = value;
+            if (value == true)
+                GTSChartController.Instance.ShowDiagnosticGraphs();
+            else
+                GTSChartController.Instance.HideDiagnosticGraphs();
         }
     }
 
@@ -34,6 +58,9 @@ public class GTSKeyController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F12))
             OnChartUI = !OnChartUI;
+
+        if(Input.GetKeyDown(KeyCode.F11))
+            OnNewChartUI = !OnNewChartUI;
 
     }
 }
