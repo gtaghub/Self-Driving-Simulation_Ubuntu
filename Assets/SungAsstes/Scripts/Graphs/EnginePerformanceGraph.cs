@@ -5,15 +5,17 @@ using VehiclePhysics;
 
 public class EnginePerformanceGraph : GraphBase
 {
-    void FixedUpdate()
+    private void Start()
     {
-       elpasedTime += Time.deltaTime; // each update we deacrese the time that has passed
-       frameCount++;
-       _TmpFrame.text = "FRM    " + frameCount.ToString();
+        StartCoroutine(Co_UpdateRendering());
+    }
 
-       if (elpasedTime >= 0.1f)
-       {
-            elpasedTime = 0.0f; // set the time to one and :
+    IEnumerator Co_UpdateRendering()
+    {
+        while (true)
+        {
+            frameCount++;
+            _TmpFrame.text = "FRM    " + frameCount.ToString();
 
             // 차량 데이터 가져오기
             int[] vehicleData = vehicle.data.Get(Channel.Vehicle);
@@ -21,7 +23,7 @@ public class EnginePerformanceGraph : GraphBase
             tempVehicleData[VehicleData.EngineRpm] = vehicleData[VehicleData.EngineRpm] / 1000.0f;
             tempVehicleData[VehicleData.GearboxGear] = vehicleData[VehicleData.GearboxGear];
             tempVehicleData[VehicleData.Speed] = vehicleData[VehicleData.Speed] * 3.6f / 1000.0f;
-            
+
             // 엔진 토크
             float engineTorque = vehicleData[VehicleData.EngineTorque];
             if (engineTorque <= 0)
@@ -39,11 +41,11 @@ public class EnginePerformanceGraph : GraphBase
             // 엔진 연료
             float engineFuelRate = vehicleData[VehicleData.EngineFuelRate] / 1000.0f;
 
-            if(engineFuelRate <= 0)
+            if (engineFuelRate <= 0)
                 tempVehicleData[VehicleData.EngineFuelRate] = 0;
             else
             {
-                tempVehicleData[VehicleData.EngineFuelRate] = engineFuelRate / tempVehicleData[VehicleData.EnginePower]* 3600.0f;
+                tempVehicleData[VehicleData.EngineFuelRate] = engineFuelRate / tempVehicleData[VehicleData.EnginePower] * 3600.0f;
                 tempVehicleData[VehicleData.EngineLoad] = vehicleData[VehicleData.EngineLoad] / 1000.0f;
             }
 
@@ -63,16 +65,17 @@ public class EnginePerformanceGraph : GraphBase
                 _listVehicleStatText[i].UpdateText(tempVehicleData, null);
             }
 
-            Debug.Log($"EngineTorque : {tempVehicleData[VehicleData.EngineTorque]}, EnginePower : {tempVehicleData[VehicleData.EnginePower]}, EngineFuelRate : {tempVehicleData[VehicleData.EngineFuelRate]}, EngineLoad : {tempVehicleData[VehicleData.EngineLoad]}");
-            chart.DataSource.AddPointToCategoryRealtime("RPM", X, engineRpmChart, 0.1f); // now we can also set the animation time for the streaming value
-            chart.DataSource.AddPointToCategoryRealtime("Gear", X, geerChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Speed", X, speedChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("RPM", X, engineRpmChart, blendTime); // now we can also set the animation time for the streaming value
+            chart.DataSource.AddPointToCategoryRealtime("Gear", X, geerChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Speed", X, speedChart, blendTime); // setting it to 1f will make it blend in 1 second
 
-            chart.DataSource.AddPointToCategoryRealtime("Torque", X, torqueChart, 0.1f); // now we can also set the animation time for the streaming value
-            chart.DataSource.AddPointToCategoryRealtime("Power", X, powerChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Fuel", X, fuelChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Load", X, load, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Torque", X, torqueChart, blendTime); // now we can also set the animation time for the streaming value
+            chart.DataSource.AddPointToCategoryRealtime("Power", X, powerChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Fuel", X, fuelChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Load", X, load, blendTime); // setting it to 1f will make it blend in 1 second
             X++; // increase the X value so the next point is 1 unity away
-       }
+
+            yield return new WaitForSeconds(targetTime); // 지정한 시간만큼 대기
+        }
     }
 }

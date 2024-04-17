@@ -17,10 +17,9 @@ public class GraphBase : MonoBehaviour
     protected List<VehicleStatText> _listVehicleStatText = new List<VehicleStatText>();
 
     protected float X = 0f;
-
-    protected float elpasedTime = 0f;
     protected int frameCount = 0;
-
+    protected float targetTime = 0.1f;
+    protected float blendTime = 0.1f;
     void Start()
     {
         int count = _vehicleStateTextParent.childCount;

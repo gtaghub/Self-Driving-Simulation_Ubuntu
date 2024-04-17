@@ -2,8 +2,8 @@
 using UnityEngine.UI;
 
 public class ButtonBehaviour : MonoBehaviour {
-    public PluginInterface pluginInterface;
-    public Button[] buttons;
+    [SerializeField] ExternalWindowController _externalWindowController;
+    [SerializeField] Button[] buttons;
 
     public static readonly string showWindowPlugin = "Show Window";
 	static readonly string closeWindowPlugin = "Close Window";
@@ -19,14 +19,9 @@ public class ButtonBehaviour : MonoBehaviour {
             i += 1;
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-	public void OnButtonClick(int id){		
-		bool windowOn = pluginInterface.ToggleShowWindow(id);
-        buttons[id].GetComponentInChildren<Text>().text = windowOn ? closeWindowPlugin : showWindowPlugin;
+	public void OnButtonClick(int id){
+        _externalWindowController.ToggleShowWindow(id);
+        //buttons[id].GetComponentInChildren<Text>().text = windowOn ? closeWindowPlugin : showWindowPlugin;
 	}    
 }

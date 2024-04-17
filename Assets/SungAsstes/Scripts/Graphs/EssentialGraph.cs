@@ -5,15 +5,17 @@ using VehiclePhysics;
 
 public class EssentialGraph : GraphBase
 {
-    void FixedUpdate()
+    private void Start()
     {
-       elpasedTime += Time.deltaTime; // each update we deacrese the time that has passed
-       frameCount++;
-       _TmpFrame.text = "FRM    " + frameCount.ToString();
+        StartCoroutine(Co_UpdateRendering());
+    }
 
-       if (elpasedTime >= 0.1f)
-       {
-            elpasedTime = 0.0f; // set the time to one and :
+    IEnumerator Co_UpdateRendering()
+    {
+        while (true) // 무한 루프
+        {
+            frameCount++;
+            _TmpFrame.text = "FRM    " + frameCount.ToString();
 
             // 차량 데이터 가져오기
             int[] vehicleData = vehicle.data.Get(Channel.Vehicle);
@@ -35,10 +37,10 @@ public class EssentialGraph : GraphBase
             float geerChart = 6f + tempVehicleData[VehicleData.GearboxGear] / 10f;
             float speedChart = 4f + tempVehicleData[VehicleData.Speed] / 100.0f;
             float steeringChart = 3f + tempVehicleData[VehicleData.AidedSteer];
-            
+
             float throttleChart = 1f + tempInputData[InputData.Throttle];
             float brakeChart = 1f + tempInputData[InputData.Brake];
-            float ClutchChart = 1f + tempInputData[InputData.Clutch]; 
+            float ClutchChart = 1f + tempInputData[InputData.Clutch];
 
             // 수치 텍스트 적용
             for (int i = 0; i < _listVehicleStatText.Count; i++)
@@ -47,14 +49,16 @@ public class EssentialGraph : GraphBase
             }
 
             // Debug.Log($"engineRpm : {engineRpm}, currentGear : {currentGear}, speed : {speed}, steering : {steering}, throttle : {throttle}, brake : {brake}, clutch : {clutch}");
-            chart.DataSource.AddPointToCategoryRealtime("RPM", X, engineRpmChart, 0.1f); // now we can also set the animation time for the streaming value
-            chart.DataSource.AddPointToCategoryRealtime("Gear", X, geerChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Speed", X, speedChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Steering", X, steeringChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Throttle", X, throttleChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Brake", X, brakeChart, 0.1f); // setting it to 1f will make it blend in 1 second
-            chart.DataSource.AddPointToCategoryRealtime("Clutch", X, ClutchChart, 0.1f); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("RPM", X, engineRpmChart, blendTime); // now we can also set the animation time for the streaming value
+            chart.DataSource.AddPointToCategoryRealtime("Gear", X, geerChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Speed", X, speedChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Steering", X, steeringChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Throttle", X, throttleChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Brake", X, brakeChart, blendTime); // setting it to 1f will make it blend in 1 second
+            chart.DataSource.AddPointToCategoryRealtime("Clutch", X, ClutchChart, blendTime); // setting it to 1f will make it blend in 1 second
             X++; // increase the X value so the next point is 1 unity away
-       }
+
+            yield return new WaitForSeconds(targetTime); // 지정한 시간만큼 대기
+        }
     }
 }

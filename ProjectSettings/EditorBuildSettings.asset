@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/AWSIM/Scenes/Main/AutowareSimulation.unity
-    guid: 9a19a6429a390f1428320cff9d4e1f10
+    path: Assets/SungAsstes/Scenes/Main.unity
+    guid: c8e8c109104db4a88b9d837544541297
   m_configObjects: {}
