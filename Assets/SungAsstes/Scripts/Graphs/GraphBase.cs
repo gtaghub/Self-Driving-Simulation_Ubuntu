@@ -18,8 +18,8 @@ public class GraphBase : MonoBehaviour
 
     protected float X = 0f;
     protected int frameCount = 0;
-    protected float targetTime = 0.1f;
-    protected float blendTime = 0.1f;
+    protected float targetTime = 0.5f;
+    protected float blendTime = 0.5f;
     void Start()
     {
         int count = _vehicleStateTextParent.childCount;
@@ -34,7 +34,7 @@ public class GraphBase : MonoBehaviour
 
         // It is best practice to clear a category before filling it with new data
         chart.DataSource.ClearCategory("Illusion");
-        chart.DataSource.AddPointToCategory("Illusion", 300, 0f);
+        chart.DataSource.AddPointToCategory("Illusion", 10, 0f);
 
         // each startBatch call must be matched width an EndBatch call !!!
         chart.DataSource.EndBatch();
