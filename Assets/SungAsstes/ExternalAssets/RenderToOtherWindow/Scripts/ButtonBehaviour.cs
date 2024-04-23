@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ButtonBehaviour : MonoBehaviour {
     [SerializeField] ExternalWindowController _externalWindowController;
@@ -15,7 +16,6 @@ public class ButtonBehaviour : MonoBehaviour {
             button.gameObject.SetActive(true);
             int temp = i;
             button.onClick.AddListener(() => OnButtonClick(temp));
-            button.GetComponentInChildren<Text>().text = showWindowPlugin;
             i += 1;
         }
 	}
