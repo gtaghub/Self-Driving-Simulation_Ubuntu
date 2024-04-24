@@ -71,10 +71,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/3DModels
-/[Aa]ssets/AWSIM
+/[Aa]ssets/AWSIM/Externals
+/[Aa]ssets/AWSIM/Models
+/[Aa]ssets/AWSIM/Textures
 /[Aa]ssets/Plugins
-/[Aa]ssets/RGLUnityPlugin
-/[Aa]ssets/Ros2ForUnity
 /[Aa]ssets/ScenarioSimulatorConnector
 /[Aa]ssets/Vehicle Physics Pro
 
