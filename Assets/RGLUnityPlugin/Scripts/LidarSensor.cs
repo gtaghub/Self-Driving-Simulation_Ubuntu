@@ -138,6 +138,11 @@ namespace RGLUnityPlugin
 
         public void OnValidate()
         {
+            UpdateConfiguration();
+        }
+
+        public void UpdateConfiguration()
+        {
             // This tricky code ensures that configuring from a preset dropdown
             // in Unity Inspector works well in prefab edit mode and regular edit mode. 
             bool presetChanged = validatedPreset != modelPreset;
